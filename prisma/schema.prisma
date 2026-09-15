@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Candidate {
+  id                String   @id @default(uuid())
+  name              String
+  skills            String[]
+  yearsOfExperience Int
+  location          String
+  expectedSalary    Int
+  createdAt         DateTime @default(now())
+
+  @@map("candidates")
+}
+
+model Job {
+  id                 String   @id @default(uuid())
+  title              String
+  // JSON array: [{ skill: string, type: "must-have" | "nice-to-have" }]
+  requiredSkills     Json
+  minYearsExperience Int
+  location           String
+  salaryMin          Int
+  salaryMax          Int
+  remoteAllowed      Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  @@map("jobs")
+}
